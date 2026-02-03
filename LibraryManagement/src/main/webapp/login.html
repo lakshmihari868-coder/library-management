@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Library Login</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+/* LEFT SWITCH USER */
+.switch-user {
+    position: absolute;
+    left: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.switch-user button {
+    background: rgba(255,255,255,0.15);
+    border: none;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.switch-user button:hover {
+    background: rgba(255,255,255,0.3);
+}
+
+/* LOGIN CARD */
+.login-box {
+    text-align: center;
+}
+
+/* USER IMAGE */
+.avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: white;
+    margin: 0 auto 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 50px;
+    color: #2a5298;
+}
+
+/* USERNAME */
+.username {
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* PASSWORD INPUT */
+input[type=password] {
+    width: 260px;
+    padding: 10px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    font-size: 15px;
+    text-align: center;
+}
+
+/* SUBMIT BUTTON */
+input[type=submit] {
+    margin-top: 15px;
+    padding: 10px 40px;
+    border-radius: 25px;
+    border: none;
+    background: #ffffff;
+    color: #2a5298;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+input[type=submit]:hover {
+    background: #e0e0e0;
+}
+
+/* ERROR */
+.error {
+    margin-top: 15px;
+    color: #ffcccc;
+    font-size: 14px;
+}
+</style>
+
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-box">
+
+    <div class="avatar">👤</div>
+
+    <div class="username">ADMIN</div>
+
+    <form action="loginServlet" method="POST">
+        <input type="hidden" name="username" value="admin">
+        <input type="password" name="password" placeholder="Enter password" required>
+        <br>
+        <input type="submit" value="Unlock">
+    </form>
+
+    <div class="error">
+        <!-- error messages via ?error=invalid -->
+    </div>
+
+</div>
+
+</body>
+</html>

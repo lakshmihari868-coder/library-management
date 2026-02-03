@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Face Login</title>
+<style>
+  body { font-family: Arial; text-align: center; padding: 20px; }
+  video { border: 2px solid #333; border-radius: 8px; }
+  button { padding: 10px 20px; margin-top: 10px; }
+  #status { margin-top: 15px; color: red; font-weight: bold; }
+</style>
+</head>
+<body>
+
+<h2>Login with Face</h2>
+
+<video id="video" width="320" height="240" autoplay></video><br>
+<button id="captureBtn">Login with Face</button>
+
+<div id="status"></div>
+
+<script>
+const video = document.getElementById('video');
+const captureBtn = document.getElementById('captureBtn');
+const statusDiv = document.getElementById('status');
+
+// Access webcam
+navigator.mediaDevices.getUserMedia({ video: true })
+  .then(stream => video.srcObject = stream)
+  .catch(err => statusDiv.textContent = "Webcam access denied.");
+
+// Capture photo and send to server
+captureBtn.addEventListener('click', () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+    canvas.getContext('2d').drawImage(video, 0, 0);
+
+    const base64Image = canvas.toDataURL('image/png').split(',')[1]; // Remove data:image/png;base64,
+
+    fetch('faceLoginServlet', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: base64Image })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if(data.status === 'success'){
+            window.location.href = 'dashboard.jsp';
+        } else {
+            statusDiv.textContent = "Face not recognized. Try again!";
+        }
+    })
+    .catch(err => statusDiv.textContent = "Server error.");
+});
+</script>
+
+</body>
+</html>

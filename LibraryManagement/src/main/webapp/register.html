@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Register with Face</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        padding: 30px;
+    }
+    form {
+        background: #fff;
+        padding: 20px;
+        width: 350px;
+        border-radius: 8px;
+    }
+    video {
+        border: 2px solid #333;
+        border-radius: 6px;
+    }
+    button, input[type=submit] {
+        margin-top: 10px;
+        padding: 8px 14px;
+    }
+</style>
+</head>
+
+<body>
+
+<h2>Register User with Face</h2>
+
+<form method="POST" action="registerServlet">
+    Username:<br>
+    <input type="text" name="username" required><br><br>
+
+    Password:<br>
+    <input type="password" name="password" required><br><br>
+
+    <video id="video" width="320" height="240" autoplay></video><br>
+
+    <button type="button" id="capture">Capture Face</button><br><br>
+
+    <input type="hidden" name="faceData" id="faceData">
+
+    <input type="submit" value="Register">
+</form>
+
+<script>
+const video = document.getElementById("video");
+
+// Start camera
+navigator.mediaDevices.getUserMedia({ video: true })
+.then(stream => video.srcObject = stream)
+.catch(() => alert("Camera access denied"));
+
+// Capture face
+document.getElementById("capture").addEventListener("click", () => {
+    const canvas = document.createElement("canvas");
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    canvas.getContext("2d").drawImage(video, 0, 0);
+
+    // Remove data:image/png;base64,
+    const base64Image = canvas.toDataURL("image/png").split(",")[1];
+    document.getElementById("faceData").value = base64Image;
+
+    alert("Face captured successfully!");
+});
+</script>
+
+</body>
+</html>
